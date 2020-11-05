@@ -1,48 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: [ './app.component.css' ]
 })
-export class AppComponent {
-    title = 'test2';
+export class AppComponent  {
+  public firstN: number;
+  public secondN: number;
+  public firstO: string;
+  public secondO: string;
+  public result: string;
 
-    public firstOperator: string;
-    public secondOperator: string;
-    public firstNumber: number;
-    public secondNumber: number;
-    public errorMsg: string;
-    public result: boolean;
-
-    onClick(): void {
-        this.result = !this.result;
-
-        let result: boolean;
-
-        if (!this.secondOperator) {
-           this.errorMsg = 'Отсутствует второй оператор';
-        } else if ((this.firstNumber > 2 || this.firstNumber < 0) || (this.secondNumber > 2 || this.secondNumber < 0)) {
-            this.errorMsg = 'Неправильно число';
-        } else {
-            this.errorMsg = null;
-        }
-        switch (this.secondOperator) {
-            case '&&':
-                result = Boolean(this.firstNumber && this.secondNumber);
-                break;
-            case '||':
-                result = Boolean(this.firstNumber || this.secondNumber);
-                break;
-        }
-
-        switch (this.firstOperator) {
-            case '!':
-                this.result = !result;
-                break;
-            default:
-                this.result = result;
-                break;
-        }
+  click() {
+    if (this.firstO == null || this.secondO == null) {
+      this.result = 'Не указаны операторы';
+    } else if (this.firstN == null || this.secondN == null) {
+      this.result = 'Не указаны числа';
+    } else if (this.firstN > 1 || this.secondN > 1 || this.firstN < 0 || this.secondN < 0) {
+      this.result = 'Число не может быть меньше нуля или больше 1';
+    } else {
+      if (this.firstO === '!' && this.secondO === '&&') {
+        this.result = (!(this.firstN && this.secondN)).toString();
+      } else if (this.firstO === '!' && this.secondO === '||') {
+        this.result = (!(this.firstN || this.secondN)).toString();
+      } else {
+        this.result = 'Ошибка вычислений';
+      }
     }
+  }
 }
